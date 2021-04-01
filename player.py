@@ -1,5 +1,6 @@
 import os
 import sounds
+import time
 import pygame as pg
 from grid import Grid
 from tetromino import Tetromino
@@ -74,42 +75,44 @@ class Player:
         :param event: pygame event
         :param keys: (left, right, rotate_cw, rotate_ccw, drop, speed up)
         """
-        keys_pressed = pg.key.get_pressed()
+      
+
         if event.type == pg.KEYDOWN:
-            if keys_pressed[keys[0]]:
+            if event.key==keys[0]:
                 self.current_tetromino.move_left()
                 # if tetromino overlaps or it is out of bounds undo move left
                 if self.grid.is_out_of_bounds(self.current_tetromino.get_coords(), self.columns) \
                         or self.grid.overlap(self.current_tetromino.get_coords()):
                     self.current_tetromino.move_right()
-            elif keys_pressed[keys[1]]:
+            elif event.key==keys[1]:
+                
                 self.current_tetromino.move_right()
                 # if tetromino overlaps or it is out of bounds undo move right
                 if self.grid.is_out_of_bounds(self.current_tetromino.get_coords(), self.columns) \
                         or self.grid.overlap(self.current_tetromino.get_coords()):
                     self.current_tetromino.move_left()
 
-            if keys_pressed[keys[2]]:
+            if event.key==keys[2]:
                 self.current_tetromino.rotate_cw()
                 # if tetromino overlaps or it is out of bounds undo rotate clockwise
                 if self.grid.is_out_of_bounds(self.current_tetromino.get_coords(), self.columns) \
                         or self.grid.overlap(self.current_tetromino.get_coords()):
                     self.current_tetromino.rotate_ccw()
-            elif keys_pressed[keys[3]]:
+            elif event.key==keys[3]:
                 self.current_tetromino.rotate_ccw()
                 # if tetromino overlaps or it is out of bounds undo rotate counterclockwise
                 if self.grid.is_out_of_bounds(self.current_tetromino.get_coords(), self.columns) \
                         or self.grid.overlap(self.current_tetromino.get_coords()):
                     self.current_tetromino.rotate_cw()
 
-            if keys_pressed[keys[4]]:  # drop the tetromino instantly
+            if event.key==keys[4]:  # drop the tetromino instantly
                 if not sounds.mute:
                     sounds.drop_sound.play()
                 self.drop_tetromino = True
-            elif keys_pressed[keys[5]]:  # increase tetromino speed
+            elif event.key==keys[5]:  # increase tetromino speed
                 self.current_tetromino.speed_up()
         elif event.type == pg.KEYUP:  # reset tetromino speed
-            if keys_pressed[keys[5]]:
+            if event.key==keys[5]:
                 self.current_tetromino.reset_speed()
 
     def main_loop(self, dt):

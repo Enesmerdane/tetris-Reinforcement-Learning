@@ -23,11 +23,11 @@ FPS = 60
 block_size = 30
 glow_size = 25
 
-display_fps = False
+display_fps = True
 display_time = True
 
 # key repeat
-delay = 100  # milliseconds
+delay = 200  # milliseconds
 interval = 50  # milliseconds
 
 # game resources
@@ -138,10 +138,12 @@ def main():
         total_time = 0.0
         dt = 1.0 / FPS
         accumulator = 0.0
-
+        
         while not game_over:
             # keyboard input
             for event in pg.event.get():
+                print(event)
+                print(pg.K_LEFT)
                 if multiplayer or coop:
                     left_player.check_input(event, letter_keys)
                     right_player.check_input(event, arrow_keys)
